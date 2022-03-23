@@ -47,7 +47,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Account.cs" />
-    <Compile Include="ATM.cs" />
     <Compile Include="ATMNetwork.cs" />
     <Compile Include="ATMDisplay.cs">
       <SubType>Form</SubType>

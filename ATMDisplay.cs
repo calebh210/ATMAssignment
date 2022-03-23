@@ -19,15 +19,29 @@ namespace ATMSimulator
         Boolean clicked = false;
 
 
-        public ATMDisplay()
+        public ATMDisplay(ATMNetwork network)
         {
             InitializeComponent();
+            this.Network = network;
+            this.ac = network.getNetwork();
+
             
         }
 
         private void btnSubmit_Click(object sender, EventArgs e)
         {
-            promptForPin();
+            if (activeAccount == null)
+            {
+                activeAccount = findAccount();
+            }
+            else
+            {
+                lblScreen.Text = "Please Enter Pin";
+                int enteredPin = promptForPin();
+                if (activeAccount.checkPin(enteredPin)){
+                    dispOptions();
+                }
+            }
         }
 
         /*
@@ -63,7 +77,7 @@ namespace ATMSimulator
          */
         private int promptForPin()
         {
-            lblScreen.Text = "Please Enter Pin";
+            /*lblScreen.Text = "Please Enter Pin";*/
             String str = txtBoxInput.Text;
             int pinNumEntered = Convert.ToInt32(str);
             return pinNumEntered;

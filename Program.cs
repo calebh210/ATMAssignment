@@ -14,9 +14,10 @@ namespace ATMSimulator
         [STAThread]
         static void Main()
         {
+            ATMNetwork Network = new ATMNetwork();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new ATMDisplay());
+            Application.Run(new ATMDisplay(Network));
         }
     }
 }

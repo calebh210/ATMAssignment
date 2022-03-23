@@ -10,7 +10,7 @@ namespace ATMSimulator
 
     {
         private Account[] ac = new Account[3];
-        private ATM atm;
+        //private ATMDisplay atm;
 
         /*
          * This function initilises the 3 accounts 
@@ -23,7 +23,7 @@ namespace ATMSimulator
             ac[1] = new Account(750, 2222, 222222);
             ac[2] = new Account(3000, 3333, 333333);
 
-            atm = new ATM(ac);
+            //atm = new ATMDisplay(ac);
 
         }
 
