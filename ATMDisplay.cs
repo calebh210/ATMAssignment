@@ -196,12 +196,76 @@ namespace ATMSimulator
         {
             if (this.activeAccount != null)
             {
-                Console.WriteLine(" your current balance is : " + activeAccount.getBalance());
-                Console.WriteLine(" (prese enter to continue)");
-                Console.ReadLine();
+                lblScreen.Text = (" your current balance is : " + activeAccount.getBalance() + "\r\n(prese enter to continue)");
+                              
             }
         }
 
+
+        /*
+         * Below are all of the event handlers for the buttons
+         * 
+         */
+
+        private void btnNum1_Click(object sender, EventArgs e)
+        {
+            txtBoxInput.Text = txtBoxInput.Text + "1";
+        }
+
+        private void btnNum2_Click(object sender, EventArgs e)
+        {
+            txtBoxInput.Text = txtBoxInput.Text + "2";
+        }
+
+        private void btnNum3_Click(object sender, EventArgs e)
+        {
+            txtBoxInput.Text = txtBoxInput.Text + "3";
+        }
+
+        private void btnNum4_Click(object sender, EventArgs e)
+        {
+            txtBoxInput.Text = txtBoxInput.Text + "4";
+        }
+
+        private void btnNum5_Click(object sender, EventArgs e)
+        {
+            txtBoxInput.Text = txtBoxInput.Text + "5";
+        }
+
+        private void btnNum6_Click(object sender, EventArgs e)
+        {
+            txtBoxInput.Text = txtBoxInput.Text + "6";
+        }
+
+        private void btnNum7_Click(object sender, EventArgs e)
+        {
+            txtBoxInput.Text = txtBoxInput.Text + "7";
+        }
+
+        private void btnNum8_Click(object sender, EventArgs e)
+        {
+            txtBoxInput.Text = txtBoxInput.Text + "8";
+        }
+
+        private void btnNum9_Click(object sender, EventArgs e)
+        {
+            txtBoxInput.Text = txtBoxInput.Text + "9";
+        }
+
+        private void btnNumZero_Click(object sender, EventArgs e)
+        {
+            txtBoxInput.Text = txtBoxInput.Text + "0";
+        }
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            txtBoxInput.Text = "";
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 
 }
