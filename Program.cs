@@ -18,7 +18,8 @@ namespace ATMSimulator
             ATMNetwork Network = new ATMNetwork();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new ATMDisplay(Network));
+
+           // Application.Run(new ATMDisplay(Network));
 
 
             //code inspired by https://stackoverflow.com/questions/15300887/run-two-winform-windows-simultaneously && https://stackoverflow.com/questions/3360555/how-to-pass-parameters-to-threadstart-method-in-thread

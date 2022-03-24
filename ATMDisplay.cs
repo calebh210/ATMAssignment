@@ -17,6 +17,7 @@ namespace ATMSimulator
         private Account[] ac;
         private Account activeAccount = null;
         private ATMNetwork Network;
+        private bool isRace = true;
         int step = 0;
         
 
@@ -199,7 +200,7 @@ namespace ATMSimulator
                     {
 
                         //attempt to decrement account by 10 punds
-                        if (activeAccount.decrementBalance(10))
+                        if (activeAccount.decrementBalance(10, this.isRace))
                         {
                             //if this is possible display new balance and await key press
                             lblScreen.Text = "new balance " + activeAccount.getBalance() + "\r\n(prese enter to continue)";
@@ -214,7 +215,7 @@ namespace ATMSimulator
                     }
                     else if (input == 2)
                     {
-                        if (activeAccount.decrementBalance(50))
+                        if (activeAccount.decrementBalance(50, this.isRace))
                         {
                             lblScreen.Text = "new balance " + activeAccount.getBalance() + "\r\n(prese enter to continue)";
                         }
@@ -225,7 +226,7 @@ namespace ATMSimulator
                     }
                     else if (input == 3)
                     {
-                        if (activeAccount.decrementBalance(500))
+                        if (activeAccount.decrementBalance(500, this.isRace))
                         {
                             lblScreen.Text = "new balance " + activeAccount.getBalance() + "\r\n(prese enter to continue)";
                         }

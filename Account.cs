@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace ATMSimulator
 {
@@ -12,6 +13,9 @@ namespace ATMSimulator
         private int balance;
         private int pin;
         private int accountNum;
+
+        //semaphore documentation https://docs.microsoft.com/en-us/dotnet/api/system.threading.semaphore?view=net-6.0
+        SemaphoreSlim semaphore = new SemaphoreSlim(1);
 
         // a constructor that takes initial values for each of the attributes (balance, pin, accountNumber)
         public Account(int balance, int pin, int accountNum)
@@ -40,16 +44,30 @@ namespace ATMSimulator
          *   true if the transactions if possible
          *   false if there are insufficent funds in the account
          */
-        public Boolean decrementBalance(int amount)
+        public Boolean decrementBalance(int amount, bool isRace)
         {
-            if (this.balance > amount)
+
+            //creating the wait if there is NO data race (so create an inconsistency)
+            if (!isRace)
             {
-                balance -= amount;
-                return true;
+                semaphore.Wait();
             }
-            else
             {
-                return false;
+                //creates local balance BEFORE entering critical code
+                int localBalance = this.balance;
+                Thread.Sleep(3000);
+                if (this.balance > amount)
+                {
+                    localBalance -= amount;
+                    balance = localBalance;
+                    semaphore.Release();
+                    return true;
+                }
+                else
+                {
+                    semaphore.Release();
+                    return false;
+                }
             }
         }
 
