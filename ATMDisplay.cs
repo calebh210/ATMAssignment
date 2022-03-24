@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace ATMSimulator
 {
@@ -16,9 +17,10 @@ namespace ATMSimulator
         private Account[] ac;
         private Account activeAccount = null;
         private ATMNetwork Network;
-        Boolean clicked = false;
+        int step = 0;
+        
 
-
+        
         public ATMDisplay(ATMNetwork network)
         {
             InitializeComponent();
@@ -30,18 +32,42 @@ namespace ATMSimulator
 
         private void btnSubmit_Click(object sender, EventArgs e)
         {
-            if (activeAccount == null)
+            switch(step)
             {
-                activeAccount = findAccount();
+                case 0:
+
+                    activeAccount = findAccount();
+
+                    if (activeAccount != null)
+                    {
+                        lblScreen.Text = "Please Enter Pin";
+                        step++;
+                    }
+                   
+                    break;
+
+                case 1:
+                    int enteredPin = promptForPin();
+                    if (activeAccount.checkPin(enteredPin))
+                    {
+                        dispOptions();
+                        step++;
+                    }
+                    else
+                    {
+                        lblScreen.Text = "Pin Incorrect; Please Try Again";
+                    }
+                    break;
+                case 2:
+                    getOptions();
+                    break;
+                case 3:
+                    getWithdraw();
+                    break;
+
             }
-            else
-            {
-                lblScreen.Text = "Please Enter Pin";
-                int enteredPin = promptForPin();
-                if (activeAccount.checkPin(enteredPin)){
-                    dispOptions();
-                }
-            }
+
+            txtBoxInput.Clear();
         }
 
         /*
@@ -77,10 +103,17 @@ namespace ATMSimulator
          */
         private int promptForPin()
         {
-            /*lblScreen.Text = "Please Enter Pin";*/
+            //lblScreen.Text = "Please Enter Pin";
             String str = txtBoxInput.Text;
-            int pinNumEntered = Convert.ToInt32(str);
-            return pinNumEntered;
+            if (str == "")
+            {
+                return 0;
+            }
+            else
+            {
+                int pinNumEntered = Convert.ToInt32(str);
+                return pinNumEntered;
+            }
         }
 
         /*
@@ -94,27 +127,40 @@ namespace ATMSimulator
         private void dispOptions()
         {
 
-            lblScreen.Text = "1> take out cash \r\n2> balance\r\n3> exit";
+            lblScreen.Text = "Welcome! Please Select an Option Below: \r\n1> take out cash \r\n2> balance\r\n3> exit";
 
-            int input = Convert.ToInt32(Console.ReadLine());
 
-            if (input == 1)
+        }
+
+        private void getOptions() {
+
+            if(txtBoxInput.Text == "")
             {
-                dispWithdraw();
-            }
-            else if (input == 2)
-            {
-                dispBalance();
-            }
-            else if (input == 3)
-            {
-
-
+                dispOptions();
+                step = 2;
             }
             else
             {
+               int input = Convert.ToInt32(txtBoxInput.Text);
+
+               if (input == 1)
+               {
+                    dispWithdraw();
+                    step = 3;
+               }
+               else if (input == 2)
+               {
+                    dispBalance();
+               }
+               else if (input == 3)
+               {
+                    exitATM();
+               }
 
             }
+           
+
+           
 
         }
 
@@ -127,63 +173,66 @@ namespace ATMSimulator
          */
         private void dispWithdraw()
         {
-            Console.WriteLine("1> 10");
-            Console.WriteLine("2> 50");
-            Console.WriteLine("3> 500");
 
-            int input = Convert.ToInt32(Console.ReadLine());
+            lblScreen.Text = "1 > 10\r\n2> 50\r\n3> 500";
+        }
 
-            if (input > 0 && input < 4)
+        private void getWithdraw() {
+
+            if (txtBoxInput.Text == "")
+            {
+                dispOptions();
+                step = 2;
+            }
+            else
             {
 
-                //opiton one is entered by the user
-                if (input == 1)
+
+
+                int input = Convert.ToInt32(txtBoxInput.Text);
+
+                if (input > 0 && input < 4)
                 {
 
-                    //attempt to decrement account by 10 punds
-                    if (activeAccount.decrementBalance(10))
+                    //opiton one is entered by the user
+                    if (input == 1)
                     {
-                        //if this is possible display new balance and await key press
-                        Console.WriteLine("new balance " + activeAccount.getBalance());
-                        Console.WriteLine(" (prese enter to continue)");
-                        Console.ReadLine();
+
+                        //attempt to decrement account by 10 punds
+                        if (activeAccount.decrementBalance(10))
+                        {
+                            //if this is possible display new balance and await key press
+                            lblScreen.Text = "new balance " + activeAccount.getBalance() + "\r\n(prese enter to continue)";
+
+                        }
+                        else
+                        {
+                            //if this is not possible inform user and await key press
+                            lblScreen.Text = "insufficent funds\r\n(prese enter to continue)";
+
+                        }
                     }
-                    else
+                    else if (input == 2)
                     {
-                        //if this is not possible inform user and await key press
-                        Console.WriteLine("insufficent funds");
-                        Console.WriteLine(" (prese enter to continue)");
-                        Console.ReadLine();
+                        if (activeAccount.decrementBalance(50))
+                        {
+                            lblScreen.Text = "new balance " + activeAccount.getBalance() + "\r\n(prese enter to continue)";
+                        }
+                        else
+                        {
+                            lblScreen.Text = "insufficent funds\r\n(prese enter to continue)";
+                        }
                     }
-                }
-                else if (input == 2)
-                {
-                    if (activeAccount.decrementBalance(50))
+                    else if (input == 3)
                     {
-                        Console.WriteLine("new balance " + activeAccount.getBalance());
-                        Console.WriteLine(" (prese enter to continue)");
-                        Console.ReadLine();
-                    }
-                    else
-                    {
-                        Console.WriteLine("insufficent funds");
-                        Console.WriteLine(" (prese enter to continue)");
-                        Console.ReadLine();
-                    }
-                }
-                else if (input == 3)
-                {
-                    if (activeAccount.decrementBalance(500))
-                    {
-                        Console.WriteLine("new balance " + activeAccount.getBalance());
-                        Console.WriteLine(" (prese enter to continue)");
-                        Console.ReadLine();
-                    }
-                    else
-                    {
-                        Console.WriteLine("insufficent funds");
-                        Console.WriteLine(" (prese enter to continue)");
-                        Console.ReadLine();
+                        if (activeAccount.decrementBalance(500))
+                        {
+                            lblScreen.Text = "new balance " + activeAccount.getBalance() + "\r\n(prese enter to continue)";
+                        }
+                        else
+                        {
+                            lblScreen.Text = "insufficent funds\r\n(prese enter to continue)";
+                        }
                     }
                 }
             }
@@ -199,6 +248,16 @@ namespace ATMSimulator
                 lblScreen.Text = (" your current balance is : " + activeAccount.getBalance() + "\r\n(prese enter to continue)");
                               
             }
+        }
+
+        private void exitATM()
+        {
+            
+            lblScreen.Text = "Returning Card, Have a nice day!";
+            lblScreen.Invalidate();
+            Thread.Sleep(500);
+            Application.Exit();
+
         }
 
 
@@ -264,7 +323,7 @@ namespace ATMSimulator
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-
+            exitATM();
         }
     }
 

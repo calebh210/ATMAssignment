@@ -197,7 +197,7 @@ namespace ATMSimulator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(784, 511);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnClear);
             this.Controls.Add(this.btnNumZero);
@@ -213,6 +213,8 @@ namespace ATMSimulator
             this.Controls.Add(this.lblScreen);
             this.Controls.Add(this.btnSubmit);
             this.Controls.Add(this.txtBoxInput);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "ATMDisplay";
             this.Text = "Form1";
             this.ResumeLayout(false);
