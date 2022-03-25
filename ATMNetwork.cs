@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+//Created by: Caleb Harmon(2417989)
 namespace ATMSimulator
 {
     public class ATMNetwork
 
     {
         private Account[] ac = new Account[3];
-        private ATM atm;
+        //private ATMDisplay atm;
 
         /*
          * This function initilises the 3 accounts 
@@ -19,11 +19,13 @@ namespace ATMSimulator
          */
         public ATMNetwork()
         {
-            ac[0] = new Account(300, 1111, 111111);
-            ac[1] = new Account(750, 2222, 222222);
-            ac[2] = new Account(3000, 3333, 333333);
 
-            atm = new ATM(ac);
+            //TODO: Add names to account
+            ac[0] = new Account(300, 1111, 111111, "Sandra");
+            ac[1] = new Account(750, 2222, 222222, "James");
+            ac[2] = new Account(3000, 3333, 333333, "Christopher");
+
+            //atm = new ATMDisplay(ac);
 
         }
 

@@ -7,27 +7,90 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Threading;
+
+//Created by: Caleb Harmon(2417989)
 
 namespace ATMSimulator
 {
     public partial class ATMDisplay : Form
     {
 
+        //icon taken from https://icons.iconarchive.com/icons/google/noto-emoji-symbols/1024/73014-ATM-sign-icon.png
+   
+        
+
+
+        //Initializing Global Variables
         private Account[] ac;
         private Account activeAccount = null;
         private ATMNetwork Network;
-        Boolean clicked = false;
+        private bool isRace = false; //Data race bool, will there be a race or not
+        private int step = 0; //What step of the process is the ATM at
+        private int cardErrors = 0; // Number of errors on the card (if too many mistakes, card will be locked
+        
 
-
-        public ATMDisplay()
+        //constructor for form
+        public ATMDisplay(ATMNetwork network)
         {
             InitializeComponent();
+            this.Network = network;
+            this.ac = network.getNetwork();
+
             
         }
-
+        //main submit button at ATM, action depends on state variable
         private void btnSubmit_Click(object sender, EventArgs e)
         {
-            promptForPin();
+            switch(step)
+            {
+                case 0:
+
+                    activeAccount = findAccount();
+
+                    if (activeAccount != null)
+                    {
+                        richTxtBoxScreen.Text = "Please Enter Pin";
+                        step++;
+                    }
+                    else
+                    {
+                        richTxtBoxScreen.Text = "Could Not Find Account, Please Try Again";
+                        cardErrors++;
+                        cardErrorCheck();
+                    }
+                   
+                    break;
+
+                case 1:
+                    int enteredPin = promptForPin();
+                    if (activeAccount.checkPin(enteredPin))
+                    {
+                        dispOptions();
+                        step++;
+                    }
+                    else
+                    {
+                        richTxtBoxScreen.Text = "Pin Incorrect; Please Try Again";
+                        cardErrors++;
+                        cardErrorCheck();
+                    }
+                    break;
+                case 2:
+                    dispOptions();
+                    getOptions();
+                    break;
+                case 3:
+                    getWithdraw();
+                    break;
+                case 4:
+                    //close form after cardError limit reached
+                    this.Close();
+                    break;
+
+            }
+            //clear input box after button press
+            txtBoxInput.Clear();
         }
 
         /*
@@ -41,18 +104,20 @@ namespace ATMSimulator
          */
         private Account findAccount()
         {
-
-            int input = Convert.ToInt32(txtBoxInput.Text);
-
-            for (int i = 0; i < this.ac.Length; i++)
+            if (txtBoxInput.Text != "")
             {
-                if (ac[i].getAccountNum() == input)
+                int input = Convert.ToInt32(txtBoxInput.Text);
+
+                for (int i = 0; i < this.ac.Length; i++)
                 {
-                    return ac[i];
+                    if (ac[i].getAccountNum() == input)
+                    {
+                        return ac[i];
+                    }
                 }
             }
-
-            return null;
+                return null;
+            
         }
         /*
          * 
@@ -63,10 +128,17 @@ namespace ATMSimulator
          */
         private int promptForPin()
         {
-            lblScreen.Text = "Please Enter Pin";
+            //richTxtBoxScreen.Text = "Please Enter Pin";
             String str = txtBoxInput.Text;
-            int pinNumEntered = Convert.ToInt32(str);
-            return pinNumEntered;
+            if (str == "")
+            {
+                return 0;
+            }
+            else
+            {
+                int pinNumEntered = Convert.ToInt32(str);
+                return pinNumEntered;
+            }
         }
 
         /*
@@ -80,27 +152,41 @@ namespace ATMSimulator
         private void dispOptions()
         {
 
-            lblScreen.Text = "1> take out cash \r\n2> balance\r\n3> exit";
+            richTxtBoxScreen.Text = "Welcome "+activeAccount.getAccountName() +"! Please Select an Option Below: \r\n1> take out cash \r\n2> balance\r\n3> exit";
 
-            int input = Convert.ToInt32(Console.ReadLine());
 
-            if (input == 1)
+        }
+        //get the option from the user
+        //seperate from the function to display so that the screen has time to update
+        private void getOptions() {
+
+            if(txtBoxInput.Text != "")
+
             {
-                dispWithdraw();
-            }
-            else if (input == 2)
-            {
-                dispBalance();
-            }
-            else if (input == 3)
-            {
+               int input = Convert.ToInt32(txtBoxInput.Text);
 
+               if (input == 1)
+               {
+                    dispWithdraw();
+                    step = 3;
+               }
+               else if (input == 2)
+               {
+                    dispBalance();
+               }
+               else if (input == 3)
+               {
+                    exitATM();
+               }
+               else
+               {
+                    richTxtBoxScreen.Text = "Welcome " + activeAccount.getAccountName() + "! Please Select an Option Below: \r\n1> take out cash \r\n2> balance\r\n3> exit\r\n>ERROR: Invalid Input, Please Try Again";
+               }
 
             }
-            else
-            {
+           
 
-            }
+           
 
         }
 
@@ -113,63 +199,88 @@ namespace ATMSimulator
          */
         private void dispWithdraw()
         {
-            Console.WriteLine("1> 10");
-            Console.WriteLine("2> 50");
-            Console.WriteLine("3> 500");
 
-            int input = Convert.ToInt32(Console.ReadLine());
+            richTxtBoxScreen.Text = "1> 10\r\n2> 20\r\n3> 40\r\n4> 100\r\n5> 500";
+        }
 
-            if (input > 0 && input < 4)
+        private void getWithdraw() {
+
+            if (txtBoxInput.Text == "")
+            {
+                dispOptions();
+                step = 2;
+            }
+            else
             {
 
-                //opiton one is entered by the user
-                if (input == 1)
+
+
+                int input = Convert.ToInt32(txtBoxInput.Text);
+
+                if (input > 0 && input < 6)
                 {
 
-                    //attempt to decrement account by 10 punds
-                    if (activeAccount.decrementBalance(10))
+                    //opiton one is entered by the user
+                    if (input == 1)
                     {
-                        //if this is possible display new balance and await key press
-                        Console.WriteLine("new balance " + activeAccount.getBalance());
-                        Console.WriteLine(" (prese enter to continue)");
-                        Console.ReadLine();
+
+                        //attempt to decrement account by 10 punds
+                        if (activeAccount.decrementBalance(10, this.isRace))
+                        {
+                            //if this is possible display new balance and await key press
+                            richTxtBoxScreen.Text = "Withdrawing $10...\r\nNew Balance = $" + activeAccount.getBalance() + "\r\n(prese enter to continue)";
+
+                        }
+                        else
+                        {
+                            //if this is not possible inform user and await key press
+                            richTxtBoxScreen.Text = "insufficent funds\r\n(prese enter to continue)";
+
+                        }
                     }
-                    else
+                    else if (input == 2)
                     {
-                        //if this is not possible inform user and await key press
-                        Console.WriteLine("insufficent funds");
-                        Console.WriteLine(" (prese enter to continue)");
-                        Console.ReadLine();
+                        if (activeAccount.decrementBalance(20, this.isRace))
+                        {
+                            richTxtBoxScreen.Text = "Withdrawing $20...\r\nNew Balance = $" + activeAccount.getBalance() + "\r\n(prese enter to continue)";
+                        }
+                        else
+                        {
+                            richTxtBoxScreen.Text = "insufficent funds\r\n(prese enter to continue)";
+                        }
                     }
-                }
-                else if (input == 2)
-                {
-                    if (activeAccount.decrementBalance(50))
+                    else if (input == 3)
                     {
-                        Console.WriteLine("new balance " + activeAccount.getBalance());
-                        Console.WriteLine(" (prese enter to continue)");
-                        Console.ReadLine();
+                        if (activeAccount.decrementBalance(40, this.isRace))
+                        {
+                            richTxtBoxScreen.Text = "Withdrawing $40...\r\nNew Balance = $" + activeAccount.getBalance() + "\r\n(prese enter to continue)";
+                        }
+                        else
+                        {
+                            richTxtBoxScreen.Text = "insufficent funds\r\n(prese enter to continue)";
+                        }
                     }
-                    else
+                    else if (input == 4)
                     {
-                        Console.WriteLine("insufficent funds");
-                        Console.WriteLine(" (prese enter to continue)");
-                        Console.ReadLine();
+                        if (activeAccount.decrementBalance(100, this.isRace))
+                        {
+                            richTxtBoxScreen.Text = "Withdrawing $100...\r\nNew Balance = $" + activeAccount.getBalance() + "\r\n(prese enter to continue)";
+                        }
+                        else
+                        {
+                            richTxtBoxScreen.Text = "insufficent funds\r\n(prese enter to continue)";
+                        }
                     }
-                }
-                else if (input == 3)
-                {
-                    if (activeAccount.decrementBalance(500))
+                    else if (input == 5)
                     {
-                        Console.WriteLine("new balance " + activeAccount.getBalance());
-                        Console.WriteLine(" (prese enter to continue)");
-                        Console.ReadLine();
-                    }
-                    else
-                    {
-                        Console.WriteLine("insufficent funds");
-                        Console.WriteLine(" (prese enter to continue)");
-                        Console.ReadLine();
+                        if (activeAccount.decrementBalance(500, this.isRace))
+                        {
+                            richTxtBoxScreen.Text = "Withdrawing $500...\r\nNew Balance = $" + activeAccount.getBalance() + "\r\n(prese enter to continue)";
+                        }
+                        else
+                        {
+                            richTxtBoxScreen.Text = "insufficent funds\r\n(prese enter to continue)";
+                        }
                     }
                 }
             }
@@ -182,22 +293,131 @@ namespace ATMSimulator
         {
             if (this.activeAccount != null)
             {
-                Console.WriteLine(" your current balance is : " + activeAccount.getBalance());
-                Console.WriteLine(" (prese enter to continue)");
-                Console.ReadLine();
+                richTxtBoxScreen.Text = (" your current balance is : " + activeAccount.getBalance() + "\r\n(prese enter to continue)");
+                step = 2;
+                              
             }
         }
 
+
+        //not sure why this doesnt work, cant figure it out
+        private void exitATM()
+        {
+            //richTxtBoxScreen.Clear();
+            //Thread.Sleep(200);
+            exitMessage();
+            if (richTxtBoxScreen.Text == "Returning Card, Have a nice day!")
+            {
+                this.Close();
+                
+            }
+            //Application.Exit();
+            //this.Close();
+
+        }
+        //not sure why the message wont display before the app closes
+        private void exitMessage()
+        {
+            richTxtBoxScreen.Text = "Returning Card, Have a nice day!";
+            Thread.Sleep(1000);
+            richTxtBoxScreen.Invalidate();
+
+        }
+
+        //check the number of errors, if it is >3 block the card
+        private void cardErrorCheck()
+        {
+            if(cardErrors >= 3)
+            {
+                richTxtBoxScreen.Text = "NOTE: Too Many Errors, the card has been temporarily blocked (Press Enter to Continue)";
+                step = 4;
+            }
+        }
+
+
+        /*
+         * Below are all of the event handlers for the buttons
+         * 
+         */
+
+        private void btnNum1_Click(object sender, EventArgs e)
+        {
+            txtBoxInput.Text = txtBoxInput.Text + "1";
+        }
+
+        private void btnNum2_Click(object sender, EventArgs e)
+        {
+            txtBoxInput.Text = txtBoxInput.Text + "2";
+        }
+
+        private void btnNum3_Click(object sender, EventArgs e)
+        {
+            txtBoxInput.Text = txtBoxInput.Text + "3";
+        }
+
+        private void btnNum4_Click(object sender, EventArgs e)
+        {
+            txtBoxInput.Text = txtBoxInput.Text + "4";
+        }
+
+        private void btnNum5_Click(object sender, EventArgs e)
+        {
+            txtBoxInput.Text = txtBoxInput.Text + "5";
+        }
+
+        private void btnNum6_Click(object sender, EventArgs e)
+        {
+            txtBoxInput.Text = txtBoxInput.Text + "6";
+        }
+
+        private void btnNum7_Click(object sender, EventArgs e)
+        {
+            txtBoxInput.Text = txtBoxInput.Text + "7";
+        }
+
+        private void btnNum8_Click(object sender, EventArgs e)
+        {
+            txtBoxInput.Text = txtBoxInput.Text + "8";
+        }
+
+        private void btnNum9_Click(object sender, EventArgs e)
+        {
+            txtBoxInput.Text = txtBoxInput.Text + "9";
+        }
+
+        private void btnNumZero_Click(object sender, EventArgs e)
+        {
+            txtBoxInput.Text = txtBoxInput.Text + "0";
+        }
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            txtBoxInput.Text = "";
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            exitATM();
+        }
+
+        private void btnSetRace_CheckedChanged(object sender, EventArgs e)
+        {
+            this.isRace = btnSetRace.Checked;
+ 
+        }
+
+
+        private void ATMDisplay_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtBoxInput_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 
 }
 
-    
-
-    /*
-     *   This is the root of program and the entry point
-     * 
-     *   Class programm contains an array of account objects and a singel ATM object  
-     * 
-     */
     
