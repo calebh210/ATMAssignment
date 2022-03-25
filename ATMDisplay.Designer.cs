@@ -31,7 +31,6 @@ namespace ATMSimulator
         {
             this.txtBoxInput = new System.Windows.Forms.TextBox();
             this.btnSubmit = new System.Windows.Forms.Button();
-            this.lblScreen = new System.Windows.Forms.Label();
             this.btnNum1 = new System.Windows.Forms.Button();
             this.btnNum2 = new System.Windows.Forms.Button();
             this.btnNum3 = new System.Windows.Forms.Button();
@@ -44,41 +43,33 @@ namespace ATMSimulator
             this.btnNumZero = new System.Windows.Forms.Button();
             this.btnClear = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.btnSetRace = new System.Windows.Forms.CheckBox();
+            this.richTxtBoxScreen = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
             // 
             // txtBoxInput
             // 
-            this.txtBoxInput.Location = new System.Drawing.Point(271, 139);
+            this.txtBoxInput.Location = new System.Drawing.Point(62, 136);
             this.txtBoxInput.Name = "txtBoxInput";
-            this.txtBoxInput.Size = new System.Drawing.Size(235, 20);
+            this.txtBoxInput.Size = new System.Drawing.Size(342, 20);
             this.txtBoxInput.TabIndex = 0;
             // 
             // btnSubmit
             // 
             this.btnSubmit.BackColor = System.Drawing.Color.Green;
-            this.btnSubmit.Location = new System.Drawing.Point(539, 323);
+            this.btnSubmit.Location = new System.Drawing.Point(308, 333);
             this.btnSubmit.Name = "btnSubmit";
-            this.btnSubmit.Size = new System.Drawing.Size(96, 37);
+            this.btnSubmit.Size = new System.Drawing.Size(96, 50);
             this.btnSubmit.TabIndex = 1;
             this.btnSubmit.Text = "Submit";
             this.btnSubmit.UseVisualStyleBackColor = false;
             this.btnSubmit.Click += new System.EventHandler(this.btnSubmit_Click);
             // 
-            // lblScreen
-            // 
-            this.lblScreen.AutoSize = true;
-            this.lblScreen.Enabled = false;
-            this.lblScreen.Location = new System.Drawing.Point(325, 44);
-            this.lblScreen.Name = "lblScreen";
-            this.lblScreen.Size = new System.Drawing.Size(135, 13);
-            this.lblScreen.TabIndex = 2;
-            this.lblScreen.Text = "Enter your account number";
-            // 
             // btnNum1
             // 
-            this.btnNum1.Location = new System.Drawing.Point(293, 191);
+            this.btnNum1.Location = new System.Drawing.Point(62, 188);
             this.btnNum1.Name = "btnNum1";
-            this.btnNum1.Size = new System.Drawing.Size(50, 50);
+            this.btnNum1.Size = new System.Drawing.Size(60, 60);
             this.btnNum1.TabIndex = 3;
             this.btnNum1.Text = "1";
             this.btnNum1.UseVisualStyleBackColor = true;
@@ -86,9 +77,9 @@ namespace ATMSimulator
             // 
             // btnNum2
             // 
-            this.btnNum2.Location = new System.Drawing.Point(361, 191);
+            this.btnNum2.Location = new System.Drawing.Point(143, 188);
             this.btnNum2.Name = "btnNum2";
-            this.btnNum2.Size = new System.Drawing.Size(50, 50);
+            this.btnNum2.Size = new System.Drawing.Size(60, 60);
             this.btnNum2.TabIndex = 4;
             this.btnNum2.Text = "2";
             this.btnNum2.UseVisualStyleBackColor = true;
@@ -96,9 +87,9 @@ namespace ATMSimulator
             // 
             // btnNum3
             // 
-            this.btnNum3.Location = new System.Drawing.Point(431, 191);
+            this.btnNum3.Location = new System.Drawing.Point(223, 188);
             this.btnNum3.Name = "btnNum3";
-            this.btnNum3.Size = new System.Drawing.Size(50, 50);
+            this.btnNum3.Size = new System.Drawing.Size(60, 60);
             this.btnNum3.TabIndex = 5;
             this.btnNum3.Text = "3";
             this.btnNum3.UseVisualStyleBackColor = true;
@@ -106,9 +97,9 @@ namespace ATMSimulator
             // 
             // btnNum7
             // 
-            this.btnNum7.Location = new System.Drawing.Point(293, 323);
+            this.btnNum7.Location = new System.Drawing.Point(62, 333);
             this.btnNum7.Name = "btnNum7";
-            this.btnNum7.Size = new System.Drawing.Size(50, 50);
+            this.btnNum7.Size = new System.Drawing.Size(60, 60);
             this.btnNum7.TabIndex = 6;
             this.btnNum7.Text = "7";
             this.btnNum7.UseVisualStyleBackColor = true;
@@ -116,9 +107,9 @@ namespace ATMSimulator
             // 
             // btnNum4
             // 
-            this.btnNum4.Location = new System.Drawing.Point(293, 258);
+            this.btnNum4.Location = new System.Drawing.Point(62, 262);
             this.btnNum4.Name = "btnNum4";
-            this.btnNum4.Size = new System.Drawing.Size(50, 50);
+            this.btnNum4.Size = new System.Drawing.Size(60, 60);
             this.btnNum4.TabIndex = 7;
             this.btnNum4.Text = "4";
             this.btnNum4.UseVisualStyleBackColor = true;
@@ -126,9 +117,9 @@ namespace ATMSimulator
             // 
             // btnNum5
             // 
-            this.btnNum5.Location = new System.Drawing.Point(361, 258);
+            this.btnNum5.Location = new System.Drawing.Point(143, 262);
             this.btnNum5.Name = "btnNum5";
-            this.btnNum5.Size = new System.Drawing.Size(50, 50);
+            this.btnNum5.Size = new System.Drawing.Size(60, 60);
             this.btnNum5.TabIndex = 8;
             this.btnNum5.Text = "5";
             this.btnNum5.UseVisualStyleBackColor = true;
@@ -136,9 +127,9 @@ namespace ATMSimulator
             // 
             // btnNum6
             // 
-            this.btnNum6.Location = new System.Drawing.Point(431, 258);
+            this.btnNum6.Location = new System.Drawing.Point(223, 262);
             this.btnNum6.Name = "btnNum6";
-            this.btnNum6.Size = new System.Drawing.Size(50, 50);
+            this.btnNum6.Size = new System.Drawing.Size(60, 60);
             this.btnNum6.TabIndex = 9;
             this.btnNum6.Text = "6";
             this.btnNum6.UseVisualStyleBackColor = true;
@@ -146,9 +137,9 @@ namespace ATMSimulator
             // 
             // btnNum8
             // 
-            this.btnNum8.Location = new System.Drawing.Point(361, 323);
+            this.btnNum8.Location = new System.Drawing.Point(143, 333);
             this.btnNum8.Name = "btnNum8";
-            this.btnNum8.Size = new System.Drawing.Size(50, 50);
+            this.btnNum8.Size = new System.Drawing.Size(60, 60);
             this.btnNum8.TabIndex = 10;
             this.btnNum8.Text = "8";
             this.btnNum8.UseVisualStyleBackColor = true;
@@ -156,9 +147,9 @@ namespace ATMSimulator
             // 
             // btnNum9
             // 
-            this.btnNum9.Location = new System.Drawing.Point(431, 323);
+            this.btnNum9.Location = new System.Drawing.Point(223, 333);
             this.btnNum9.Name = "btnNum9";
-            this.btnNum9.Size = new System.Drawing.Size(50, 50);
+            this.btnNum9.Size = new System.Drawing.Size(60, 60);
             this.btnNum9.TabIndex = 11;
             this.btnNum9.Text = "9";
             this.btnNum9.UseVisualStyleBackColor = true;
@@ -166,9 +157,9 @@ namespace ATMSimulator
             // 
             // btnNumZero
             // 
-            this.btnNumZero.Location = new System.Drawing.Point(361, 388);
+            this.btnNumZero.Location = new System.Drawing.Point(143, 403);
             this.btnNumZero.Name = "btnNumZero";
-            this.btnNumZero.Size = new System.Drawing.Size(50, 50);
+            this.btnNumZero.Size = new System.Drawing.Size(60, 60);
             this.btnNumZero.TabIndex = 12;
             this.btnNumZero.Text = "0";
             this.btnNumZero.UseVisualStyleBackColor = true;
@@ -177,9 +168,9 @@ namespace ATMSimulator
             // btnClear
             // 
             this.btnClear.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.btnClear.Location = new System.Drawing.Point(539, 258);
+            this.btnClear.Location = new System.Drawing.Point(308, 262);
             this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(96, 37);
+            this.btnClear.Size = new System.Drawing.Size(96, 50);
             this.btnClear.TabIndex = 13;
             this.btnClear.Text = "Clear";
             this.btnClear.UseVisualStyleBackColor = false;
@@ -188,19 +179,41 @@ namespace ATMSimulator
             // btnCancel
             // 
             this.btnCancel.BackColor = System.Drawing.Color.Red;
-            this.btnCancel.Location = new System.Drawing.Point(539, 198);
+            this.btnCancel.Location = new System.Drawing.Point(308, 188);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(96, 37);
+            this.btnCancel.Size = new System.Drawing.Size(96, 50);
             this.btnCancel.TabIndex = 14;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = false;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
+            // btnSetRace
+            // 
+            this.btnSetRace.AutoSize = true;
+            this.btnSetRace.Location = new System.Drawing.Point(308, 403);
+            this.btnSetRace.Name = "btnSetRace";
+            this.btnSetRace.Size = new System.Drawing.Size(106, 17);
+            this.btnSetRace.TabIndex = 15;
+            this.btnSetRace.Text = "Allow Data Race";
+            this.btnSetRace.UseVisualStyleBackColor = true;
+            this.btnSetRace.CheckedChanged += new System.EventHandler(this.btnSetRace_CheckedChanged);
+            // 
+            // richTxtBoxScreen
+            // 
+            this.richTxtBoxScreen.Location = new System.Drawing.Point(62, 30);
+            this.richTxtBoxScreen.Name = "richTxtBoxScreen";
+            this.richTxtBoxScreen.Size = new System.Drawing.Size(341, 100);
+            this.richTxtBoxScreen.TabIndex = 16;
+            this.richTxtBoxScreen.Text = "Please Enter Your Account Number";
+            // 
             // ATMDisplay
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(784, 511);
+            this.BackColor = System.Drawing.Color.Gray;
+            this.ClientSize = new System.Drawing.Size(451, 476);
+            this.Controls.Add(this.richTxtBoxScreen);
+            this.Controls.Add(this.btnSetRace);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnClear);
             this.Controls.Add(this.btnNumZero);
@@ -213,14 +226,12 @@ namespace ATMSimulator
             this.Controls.Add(this.btnNum3);
             this.Controls.Add(this.btnNum2);
             this.Controls.Add(this.btnNum1);
-            this.Controls.Add(this.lblScreen);
             this.Controls.Add(this.btnSubmit);
             this.Controls.Add(this.txtBoxInput);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ATMDisplay";
             this.Text = "ATM";
-            this.WindowState = System.Windows.Forms.FormWindowState.Minimized;
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -230,7 +241,6 @@ namespace ATMSimulator
 
         private System.Windows.Forms.TextBox txtBoxInput;
         private System.Windows.Forms.Button btnSubmit;
-        private System.Windows.Forms.Label lblScreen;
         private System.Windows.Forms.Button btnNum1;
         private System.Windows.Forms.Button btnNum2;
         private System.Windows.Forms.Button btnNum3;
@@ -243,6 +253,8 @@ namespace ATMSimulator
         private System.Windows.Forms.Button btnNumZero;
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.CheckBox btnSetRace;
+        private System.Windows.Forms.RichTextBox richTxtBoxScreen;
     }
 }
 

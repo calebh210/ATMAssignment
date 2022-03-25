@@ -13,16 +13,18 @@ namespace ATMSimulator
         private int balance;
         private int pin;
         private int accountNum;
+        private string name;
 
         //semaphore documentation https://docs.microsoft.com/en-us/dotnet/api/system.threading.semaphore?view=net-6.0
         SemaphoreSlim semaphore = new SemaphoreSlim(1);
 
         // a constructor that takes initial values for each of the attributes (balance, pin, accountNumber)
-        public Account(int balance, int pin, int accountNum)
+        public Account(int balance, int pin, int accountNum, string name)
         {
             this.balance = balance;
             this.pin = pin;
             this.accountNum = accountNum;
+            this.name = name;
         }
 
         //getter and setter functions for balance
@@ -92,6 +94,11 @@ namespace ATMSimulator
         public int getAccountNum()
         {
             return accountNum;
+        }
+
+        public string getAccountName()
+        {
+            return name;
         }
 
     }

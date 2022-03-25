@@ -17,7 +17,7 @@ namespace ATMSimulator
         private Account[] ac;
         private Account activeAccount = null;
         private ATMNetwork Network;
-        private bool isRace = true;
+        private bool isRace = false;
         int step = 0;
         
 
@@ -41,7 +41,7 @@ namespace ATMSimulator
 
                     if (activeAccount != null)
                     {
-                        lblScreen.Text = "Please Enter Pin";
+                        richTxtBoxScreen.Text = "Please Enter Pin";
                         step++;
                     }
                    
@@ -56,7 +56,7 @@ namespace ATMSimulator
                     }
                     else
                     {
-                        lblScreen.Text = "Pin Incorrect; Please Try Again";
+                        richTxtBoxScreen.Text = "Pin Incorrect; Please Try Again";
                     }
                     break;
                 case 2:
@@ -104,7 +104,7 @@ namespace ATMSimulator
          */
         private int promptForPin()
         {
-            //lblScreen.Text = "Please Enter Pin";
+            //richTxtBoxScreen.Text = "Please Enter Pin";
             String str = txtBoxInput.Text;
             if (str == "")
             {
@@ -128,7 +128,7 @@ namespace ATMSimulator
         private void dispOptions()
         {
 
-            lblScreen.Text = "Welcome! Please Select an Option Below: \r\n1> take out cash \r\n2> balance\r\n3> exit";
+            richTxtBoxScreen.Text = "Welcome "+activeAccount.getAccountName() +"! Please Select an Option Below: \r\n1> take out cash \r\n2> balance\r\n3> exit";
 
 
         }
@@ -175,7 +175,7 @@ namespace ATMSimulator
         private void dispWithdraw()
         {
 
-            lblScreen.Text = "1 > 10\r\n2> 50\r\n3> 500";
+            richTxtBoxScreen.Text = "1> 10\r\n2> 50\r\n3> 500";
         }
 
         private void getWithdraw() {
@@ -203,13 +203,13 @@ namespace ATMSimulator
                         if (activeAccount.decrementBalance(10, this.isRace))
                         {
                             //if this is possible display new balance and await key press
-                            lblScreen.Text = "new balance " + activeAccount.getBalance() + "\r\n(prese enter to continue)";
+                            richTxtBoxScreen.Text = "new balance " + activeAccount.getBalance() + "\r\n(prese enter to continue)";
 
                         }
                         else
                         {
                             //if this is not possible inform user and await key press
-                            lblScreen.Text = "insufficent funds\r\n(prese enter to continue)";
+                            richTxtBoxScreen.Text = "insufficent funds\r\n(prese enter to continue)";
 
                         }
                     }
@@ -217,22 +217,22 @@ namespace ATMSimulator
                     {
                         if (activeAccount.decrementBalance(50, this.isRace))
                         {
-                            lblScreen.Text = "new balance " + activeAccount.getBalance() + "\r\n(prese enter to continue)";
+                            richTxtBoxScreen.Text = "new balance " + activeAccount.getBalance() + "\r\n(prese enter to continue)";
                         }
                         else
                         {
-                            lblScreen.Text = "insufficent funds\r\n(prese enter to continue)";
+                            richTxtBoxScreen.Text = "insufficent funds\r\n(prese enter to continue)";
                         }
                     }
                     else if (input == 3)
                     {
                         if (activeAccount.decrementBalance(500, this.isRace))
                         {
-                            lblScreen.Text = "new balance " + activeAccount.getBalance() + "\r\n(prese enter to continue)";
+                            richTxtBoxScreen.Text = "new balance " + activeAccount.getBalance() + "\r\n(prese enter to continue)";
                         }
                         else
                         {
-                            lblScreen.Text = "insufficent funds\r\n(prese enter to continue)";
+                            richTxtBoxScreen.Text = "insufficent funds\r\n(prese enter to continue)";
                         }
                     }
                 }
@@ -246,19 +246,26 @@ namespace ATMSimulator
         {
             if (this.activeAccount != null)
             {
-                lblScreen.Text = (" your current balance is : " + activeAccount.getBalance() + "\r\n(prese enter to continue)");
+                richTxtBoxScreen.Text = (" your current balance is : " + activeAccount.getBalance() + "\r\n(prese enter to continue)");
                               
             }
         }
 
         private void exitATM()
         {
-            
-            lblScreen.Text = "Returning Card, Have a nice day!";
-            lblScreen.Invalidate();
+            richTxtBoxScreen.Clear();
+            Thread.Sleep(200);
+            exitMessage();
             Thread.Sleep(500);
-            Application.Exit();
+            //Application.Exit();
+            this.Close();
 
+        }
+        //not sure why the message wont display before the app closes
+        private void exitMessage()
+        {
+            richTxtBoxScreen.Text = "Returning Card, Have a nice day!";
+          
         }
 
 
@@ -325,6 +332,11 @@ namespace ATMSimulator
         private void btnCancel_Click(object sender, EventArgs e)
         {
             exitATM();
+        }
+
+        private void btnSetRace_CheckedChanged(object sender, EventArgs e)
+        {
+            this.isRace = btnSetRace.Checked;
         }
     }
 
