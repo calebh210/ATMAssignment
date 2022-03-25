@@ -84,6 +84,7 @@ namespace ATMSimulator
                     getWithdraw();
                     break;
                 case 4:
+                    //close form after cardError limit reached
                     this.Close();
                     break;
 
@@ -402,7 +403,9 @@ namespace ATMSimulator
         private void btnSetRace_CheckedChanged(object sender, EventArgs e)
         {
             this.isRace = btnSetRace.Checked;
+ 
         }
+
 
         private void ATMDisplay_Load(object sender, EventArgs e)
         {
