@@ -23,11 +23,13 @@ namespace ATMSimulator
 
 
             //code inspired by https://stackoverflow.com/questions/15300887/run-two-winform-windows-simultaneously && https://stackoverflow.com/questions/3360555/how-to-pass-parameters-to-threadstart-method-in-thread
+            //create the two threads and the two forms
             var atmOne = new Thread(() => atmStart(Network));
             atmOne.Start();
 
             var atmTwo = new Thread(() => atmStart(Network));
             atmTwo.Start();
+           
 
         }
 

@@ -91,6 +91,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="ATMSimulator_TemporaryKey.pfx" />
     <None Include="Properties\Settings.settings">
@@ -117,6 +118,57 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\btn1.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\btn2.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\btn3.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\btn4.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\btn5.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\btn6.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\btn7.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\btn8.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\btn9.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\btn0.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\btnCancel.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\btnClear.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\btnEnter.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ATMIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ATMIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ATM ICON.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ATMIcon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
