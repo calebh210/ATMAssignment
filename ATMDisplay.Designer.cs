@@ -1,4 +1,5 @@
 ﻿
+//Created by: Caleb Harmon(2417989)
 namespace ATMSimulator
 {
     public partial class ATMDisplay
